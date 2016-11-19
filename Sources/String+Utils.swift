@@ -13,8 +13,9 @@
 import Foundation
 
 extension String {
-    public func forEachLine(handler: (_ line: String, _ stop: inout Bool) throws ->()) throws {
+    public func forEachLine(handler: (_ line: String, _ stop: inout Bool) throws ->()) rethrows {
         let lines = replacingOccurrences(of: "\r\n", with: "\n")
+            .replacingOccurrences(of: "\r", with: "\n")
             .components(separatedBy: "\n")
         var stop = false
         for line in lines {
