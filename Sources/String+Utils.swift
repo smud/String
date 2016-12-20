@@ -41,5 +41,15 @@ extension String {
     public func droppingSuffix(count: Int = 1) -> String {
         return substring(to: index(endIndex, offsetBy: -count))
     }
+    
+    public func capitalizingFirstLetter() -> String {
+        let first = String(characters.prefix(1)).capitalized
+        let other = String(characters.dropFirst())
+        return first + other
+    }
+    
+    public mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
+    }
 }
 
