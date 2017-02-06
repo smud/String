@@ -34,6 +34,22 @@ extension String {
         return hasPrefix(prefix)
     }
     
+    public func isEqual(to string: String, caseInsensitive: Bool = false) -> Bool {
+        switch caseInsensitive {
+        case false: return self == string
+        case true: return caseInsensitiveCompare(string) == .orderedSame
+        }
+    }
+    
+    public func isEqual(toOneOf strings: String..., caseInsensitive: Bool = false) -> Bool {
+        for item in strings {
+            if isEqual(to: item, caseInsensitive: caseInsensitive) {
+                return true
+            }
+        }
+        return false
+    }
+    
     public func droppingPrefix(count: Int = 1) -> String {
         return substring(from: index(startIndex, offsetBy: count))
     }
