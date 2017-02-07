@@ -34,6 +34,19 @@ extension String {
         return hasPrefix(prefix)
     }
     
+    public func isPrefix(of string: String, caseInsensitive: Bool = false) -> Bool {
+        return string.hasPrefix(self, caseInsensitive: caseInsensitive)
+    }
+    
+    public func isPrefix(ofOneOf strings: [String], caseInsensitive: Bool = false) -> Bool {
+        for item in strings {
+            if isPrefix(of: item, caseInsensitive: caseInsensitive) {
+                return true
+            }
+        }
+        return false
+    }
+    
     public func isEqual(to string: String, caseInsensitive: Bool = false) -> Bool {
         switch caseInsensitive {
         case false: return self == string
@@ -41,7 +54,7 @@ extension String {
         }
     }
     
-    public func isEqual(toOneOf strings: String..., caseInsensitive: Bool = false) -> Bool {
+    public func isEqual(toOneOf strings: [String], caseInsensitive: Bool = false) -> Bool {
         for item in strings {
             if isEqual(to: item, caseInsensitive: caseInsensitive) {
                 return true
@@ -49,7 +62,7 @@ extension String {
         }
         return false
     }
-    
+
     public func droppingPrefix(count: Int = 1) -> String {
         return substring(from: index(startIndex, offsetBy: count))
     }
