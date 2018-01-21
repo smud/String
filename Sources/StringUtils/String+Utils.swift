@@ -25,7 +25,15 @@ extension String {
             }
         }
     }
-    
+
+    public func forEachLine(handler: (_ index: Int, _ line: String, _ stop: inout Bool) throws ->()) rethrows {
+        var index = 0
+        try forEachLine { line, stop in
+            try handler(index, line, &stop)
+            index += 1
+        }
+    }
+
     public func hasPrefix(_ prefix: String, caseInsensitive: Bool) -> Bool {
         if caseInsensitive {
             return nil != range(of: prefix,
@@ -33,7 +41,16 @@ extension String {
         }
         return hasPrefix(prefix)
     }
-    
+
+    public func hasPrefix(oneOf prefixes: [String], caseInsensitive: Bool) -> Bool {
+        for prefix in prefixes {
+            if hasPrefix(prefix, caseInsensitive: caseInsensitive) {
+                return true
+            }
+        }
+        return false
+    }
+
     public func isPrefix(of string: String, caseInsensitive: Bool = false) -> Bool {
         return string.hasPrefix(self, caseInsensitive: caseInsensitive)
     }
@@ -63,17 +80,19 @@ extension String {
         return false
     }
 
-    public func droppingPrefix(count: Int = 1) -> String {
-        return substring(from: index(startIndex, offsetBy: count))
+    public func droppingPrefix(count: Int = 1) -> Substring {
+        let from = index(startIndex, offsetBy: count)
+        return self[from...]
     }
     
-    public func droppingSuffix(count: Int = 1) -> String {
-        return substring(to: index(endIndex, offsetBy: -count))
+    public func droppingSuffix(count: Int = 1) -> Substring {
+        let to = index(endIndex, offsetBy: -count)
+        return self[..<to]
     }
     
     public func capitalizingFirstLetter() -> String {
-        let first = String(characters.prefix(1)).capitalized
-        let other = String(characters.dropFirst())
+        let first = String(prefix(1)).capitalized
+        let other = String(dropFirst())
         return first + other
     }
     
